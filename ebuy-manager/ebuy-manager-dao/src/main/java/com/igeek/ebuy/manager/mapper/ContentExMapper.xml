@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.igeek.ebuy.manager.mapper.ContentExMapper" >
+  <resultMap id="BaseResultMap" type="com.igeek.ebuy.pojo.TbContent" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="category_id" property="categoryId" jdbcType="BIGINT" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="sub_title" property="subTitle" jdbcType="VARCHAR" />
+    <result column="title_desc" property="titleDesc" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="pic" property="pic" jdbcType="VARCHAR" />
+    <result column="pic2" property="pic2" jdbcType="VARCHAR" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+    <result column="updated" property="updated" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.igeek.ebuy.pojo.TbContent" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, category_id, title, sub_title, title_desc, url, pic, pic2, created, updated,content
+  </sql>
+  
+  <select id="queryByPage" parameterType="map" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List"/> from tb_content
+  	where category_id = #{categoryId} limit #{start},#{size}
+  </select>
+  
+  <select id="queryCount" parameterType="map" resultType="int">
+  	select count(1) from tb_content where category_id = #{categoryId}
+  </select>
+</mapper>

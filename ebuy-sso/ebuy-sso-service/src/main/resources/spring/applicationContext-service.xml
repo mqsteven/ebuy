@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+	http://code.alibabatech.com/schema/dubbo
+http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.2.xsd">
+
+	<!-- 配置service的扫描包 -->
+	<context:component-scan
+		base-package="com.igeek.ebuy.sso.service" />
+
+
+	<!-- 发布dubbo服务 -->
+	<!-- 配置application名称  -->
+	<dubbo:application name="ebuy-sso" />
+	<!-- 配置注册中心的信息 -->
+	<dubbo:registry protocol="zookeeper"
+		address="192.168.128.150:2181" />
+	<!-- 配置dubbo服务以及端口号  -->
+	<dubbo:protocol name="dubbo" port="20194" />
+	<!-- 申明需要暴露的服务的接口 -->
+	<!-- interface:提供的服务的接口
+		ref:实际提供服务的实现类的对象在spring中的名称
+	 -->
+	<dubbo:service interface="com.igeek.ebuy.sso.service.UserService"
+		ref="userServiceImpl" />
+	<dubbo:service interface="com.igeek.ebuy.sso.service.TokenService"
+		ref="tokenServiceImpl" />
+	
+</beans>
